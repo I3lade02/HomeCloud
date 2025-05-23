@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - HomeCloud</title>
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome, {{username}}</h2>
+        <p><a href="/logout">Logout</a></p>
+
+        <h3>Add new user</h3>
+        <p><a href="/add_user">Add</a></p>
+
+        <h3>Personal Files</h3>
+        <ul id="personal-list">Loading...</ul>
+
+        <h3>Shared Files</h3>
+        <ul id="shared-list">Loading...</ul>
+    </div>
+
+    <script>
+        async function loadFiles(folder, elementId) {
+            const res = await fetch(`/files/${folder}`);
+            const data = await res.json();
+            const list = document.getElementById(elementId);
+            list.innerHTML = '';
+            data.files.forEach(file => {
+                const li = document.createElement('li');
+                li.textContent = file;
+                list.appendChild(li);
+            });
+        }
+
+        loadFiles('personal', 'personal-list');
+        loadFiles('shared', 'shared-list');
+    </script>
+</body>
+</html>
