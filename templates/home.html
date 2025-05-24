@@ -16,26 +16,24 @@
 
         <h3>Personal Files</h3>
         <ul id="personal-list">Loading...</ul>
+        <h4>Upload to personal</h4>
+        <form method="post" action="/upload/personal" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            <button type="submit">Upload</button>
+        </form>
 
         <h3>Shared Files</h3>
         <ul id="shared-list">Loading...</ul>
+        <h4>Upload to shared</h4>
+        <form method="post" action="/upload/shared" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            <button type="submit">Upload</button>
+        </form>
+
+        <h3>Media preview</h3>
+        <div id="media-player" style="margin-top: 20px;"></div>
     </div>
 
-    <script>
-        async function loadFiles(folder, elementId) {
-            const res = await fetch(`/files/${folder}`);
-            const data = await res.json();
-            const list = document.getElementById(elementId);
-            list.innerHTML = '';
-            data.files.forEach(file => {
-                const li = document.createElement('li');
-                li.textContent = file;
-                list.appendChild(li);
-            });
-        }
-
-        loadFiles('personal', 'personal-list');
-        loadFiles('shared', 'shared-list');
-    </script>
+    <script src="../static/script.js"></script>
 </body>
 </html>
