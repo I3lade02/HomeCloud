@@ -2,6 +2,7 @@ from flask import Flask, request, session, redirect, render_template, url_for, f
 import os
 import json
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = '="zj"n6,b~RcjD('
@@ -60,17 +61,27 @@ def logout():
 @app.route('/files/<folder>')
 def list_files(folder):
     if 'username' not in session:
-        return redirect(url_for(login))
+        return redirect(url_for('login'))
 
     username = session['username']
     if folder == 'shared':
         target_path = os.path.join(DATA_DIR, 'shared')
     elif folder == 'personal':
-        target_path = os.path.join(DATA_DIR, username,'personal')
+        target_path = os.path.join(DATA_DIR, username, 'personal')
     else:
-        return 'Invalid folder', 401
-    
-    files = os.listdir(target_path)
+        return 'Invalid folder', 400
+
+    files = []
+    for filename in os.listdir(target_path):
+        file_path = os.path.join(target_path, filename)
+        if os.path.isfile(file_path):
+            stat = os.stat(file_path)
+            files.append({
+                'name': filename,
+                'size': stat.st_size,
+                'mtime': datetime.fromtimestamp(stat.st_mtime).strftime('%Y-%m-%d %H:%M')
+            })
+
     return {'files': files}
 
 #přidávání nových účtů pouze pro admina

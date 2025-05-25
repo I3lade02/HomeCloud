@@ -1,22 +1,72 @@
-body {
-    font-family: Arial, sans-serif;
-    background: #f8f9fa;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+body { 
+    font-family: 'Sagoe UI', sans-serif;
+    background: #f2f4f8;
+    margin: 0;
+    padding: 0;
 }
 
 .container {
-    background: white;
+    max-width: 1000px;
+    margin: 2rem auto;
+    background: #fff;
     padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-input {
-    margin: 0.5rem;
-    padding: 0.5rem;
-    width: 200px;
+h2, h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.section {
+    margin-bottom: 2rem;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+
+li {
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+}
+
+a {
+    text-decoration: none;
+    color: #007BFF;
+}
+
+button {
+    background: #007BFF;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+form {
+    display: inline;
+}
+
+input[type='file'] {
+    margin-top: 0.5rem;
+}
+
+#media-player {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 6px;
 }

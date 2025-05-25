@@ -7,32 +7,53 @@
     <link rel="stylesheet" href="../static/styles.css">
 </head>
 <body>
-    <div class="container">
-        <h2>Welcome, {{username}}</h2>
-        <p><a href="/logout">Logout</a></p>
-
-        <h3>Add new user</h3>
-        <p><a href="/add_user">Add</a></p>
-
-        <h3>Personal Files</h3>
-        <ul id="personal-list">Loading...</ul>
-        <h4>Upload to personal</h4>
-        <form method="post" action="/upload/personal" enctype="multipart/form-data">
-            <input type="file" name="file" required>
-            <button type="submit">Upload</button>
-        </form>
-
-        <h3>Shared Files</h3>
-        <ul id="shared-list">Loading...</ul>
-        <h4>Upload to shared</h4>
-        <form method="post" action="/upload/shared" enctype="multipart/form-data">
-            <input type="file" name="file" required>
-            <button type="submit">Upload</button>
-        </form>
-
-        <h3>Media preview</h3>
-        <div id="media-player" style="margin-top: 20px;"></div>
+     <div style="display: flex; height: 100vh;">
+    <!-- Sidebar -->
+    <div style="width: 200px; background: #343a40; color: white; padding: 1rem;">
+      <h3 style="margin-top: 0; color: white;">HomeCloud</h3>
+      <p><strong>User:</strong> {{ username }}</p>
+      <nav>
+        <ul style="list-style: none; padding-left: 0;">
+          <li><a href="/" style="color: white;">📁 Dashboard</a></li>
+          {% if username == 'admin' %}
+          <li><a href="/add_user" style="color: white;">➕ Add User</a></li>
+          {% endif %}
+          <li><a href="/logout" style="color: white;">🚪 Logout</a></li>
+        </ul>
+      </nav>
     </div>
+
+    <!-- Main content -->
+    <div class="container" style="flex-grow: 1; overflow-y: auto;">
+      <h2>Welcome, {{ username }}!</h2>
+
+      <div class="section">
+        <h3>📁 Personal Files</h3>
+        <ul id="personal-list">Loading...</ul>
+        <h4>Upload to Personal</h4>
+        <form method="post" action="/upload/personal" enctype="multipart/form-data">
+          <input type="file" name="file" required>
+          <button type="submit">Upload</button>
+        </form>
+      </div>
+
+      <div class="section">
+        <h3>👪 Shared Files</h3>
+        <ul id="shared-list">Loading...</ul>
+        <h4>Upload to Shared</h4>
+        <form method="post" action="/upload/shared" enctype="multipart/form-data">
+          <input type="file" name="file" required>
+          <button type="submit">Upload</button>
+        </form>
+      </div>
+
+      <div class="section">
+        <h3>🎵 Media Preview</h3>
+        <div id="media-player"></div>
+      </div>
+    </div>
+  </div>
+
 
     <script src="../static/script.js"></script>
 </body>
