@@ -16,32 +16,31 @@ function formatSize(bytes) {
 async function loadFiles(folder, elementId) {
   const res = await fetch(`/files/${folder}`);
   const data = await res.json();
-  const list = document.getElementById(elementId);
-  list.innerHTML = '';
+  const container = document.getElementById(elementId);
+  container.innerHTML = '';
 
   data.files.forEach(file => {
-    const li = document.createElement('li');
+    const card = document.createElement('div');
+    card.className = 'file-card';
 
     const icon = document.createElement('span');
-    icon.textContent = getIcon(file.name) + ' ';
-    li.appendChild(icon);
+    icon.textContent = getIcon(file.name);
+    card.appendChild(icon);
 
     const link = document.createElement('a');
     link.href = `/download/${folder}/${file.name}`;
     link.textContent = file.name;
-    link.style.marginRight = '10px';
-    li.appendChild(link);
+    card.appendChild(link);
 
-    const meta = document.createElement('span');
-    meta.textContent = `(${formatSize(file.size)}, ${file.mtime})`;
-    meta.style.fontSize = '0.9em';
-    meta.style.marginLeft = '10px';
-    li.appendChild(meta);
+    const meta = document.createElement('div');
+    meta.textContent = `${formatSize(file.size)}, ${file.mtime}`;
+    meta.style.fontSize = '0.85em';
+    card.appendChild(meta);
 
     if (file.name.endsWith('.mp3') || file.name.endsWith('.mp4')) {
-      const preview = document.createElement('button');
-      preview.textContent = '▶️';
-      preview.onclick = () => {
+      const previewBtn = document.createElement('button');
+      previewBtn.textContent = '▶️ Preview';
+      previewBtn.onclick = () => {
         const player = document.getElementById('media-player');
         const media = file.name.endsWith('.mp3')
           ? `<audio controls src="/preview/${folder}/${file.name}" style="width:100%;"></audio>`
@@ -49,21 +48,19 @@ async function loadFiles(folder, elementId) {
         player.innerHTML = media;
         player.scrollIntoView({ behavior: 'smooth' });
       };
-      li.appendChild(preview);
+      card.appendChild(previewBtn);
     }
 
-    const form = document.createElement('form');
-    form.method = 'post';
-    form.action = `/delete/${folder}/${file.name}`;
-    form.style.display = 'inline';
-    form.onsubmit = () => confirm(`Delete "${file.name}"?`);
-    const btn = document.createElement('button');
-    btn.textContent = '🗑️';
-    btn.style.marginLeft = '10px';
-    form.appendChild(btn);
-    li.appendChild(form);
+    const delForm = document.createElement('form');
+    delForm.method = 'post';
+    delForm.action = `/delete/${folder}/${file.name}`;
+    delForm.onsubmit = () => confirm(`Delete "${file.name}"?`);
+    const delBtn = document.createElement('button');
+    delBtn.textContent = '🗑️ Delete';
+    delForm.appendChild(delBtn);
+    card.appendChild(delForm);
 
-    list.appendChild(li);
+    container.appendChild(card);
   });
 }
 

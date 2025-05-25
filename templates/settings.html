@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Settings - HomeCloud</title>
+  <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+  <div style="display: flex; height: 100vh;">
+    <!-- Sidebar -->
+    <div style="width: 200px; background: #343a40; color: white; padding: 1rem;">
+      <h3 style="margin-top: 0; color: white;">HomeCloud</h3>
+      <p><strong>User:</strong> {{ username }}</p>
+      <nav>
+        <ul style="list-style: none; padding-left: 0;">
+          <li><a href="/" style="color: white;">📁 Dashboard</a></li>
+          <li><a href="/settings" style="color: white;">⚙️ Settings</a></li>
+          {% if username == 'admin' %}
+          <li><a href="/add_user" style="color: white;">➕ Add User</a></li>
+          {% endif %}
+          <li><a href="/logout" style="color: white;">🚪 Logout</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Main content -->
+    <div class="container" style="flex-grow: 1;">
+        <h2>Settings</h2>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="settings-flash">
+                {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="post" class="settings-form">
+            <h3>Change Password</h3>
+
+            <label for="current_password">Current Password</label>
+            <input type="password" name="current_password" id="current_password" required>
+
+            <label for="new_password">New Password</label>
+            <input type="password" name="new_password" id="new_password" required>
+
+            <label for="confirm_password">Confirm New Password</label>
+            <input type="password" name="confirm_password" id="confirm_password" required>
+
+            <button type="submit">Update Password</button>
+        </form>
+    </div>
+  </div>
+</body>
+</html>

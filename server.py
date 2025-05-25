@@ -179,6 +179,31 @@ def preview_file(folder, filename):
     return send_from_directory(directory=dir_path, path=filename)
 
 
+@app.route('/settings', methods = ['GET', 'POST'])
+def settings():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    
+    username = session['username']
+    users = load_users()
+
+    if request.method == 'POST':
+        current = request.form['current_password']
+        new = request.form['new_password']
+        confirm = request.form['confirm_password']
+
+        if not check_password_hash(users[username]['password'], current):
+            flash('Current password is incorrect')
+        elif new != confirm:
+            flash('New password do not match')
+        else:
+            users[username]['password'] = generate_password_hash(new, method='scrypt')
+            save_users(users)
+            flash('Password updated succesfully')
+
+    return render_template('/settings.html', username=username)
+                                
+
 if __name__ == "__main__":
     init_folders()
     app.run(host='0.0.0.0', port=5000, debug=True)
