@@ -1,28 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
   <title>Add User - HomeCloud</title>
   <link rel="stylesheet" href="../static/styles.css">
 </head>
 <body>
-  <div class="container">
-    <h2>Add New User</h2>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-          {% for msg in messages %}
-            <li>{{ msg }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+  <div style="display: flex; height: 100vh;">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h2>🏠 HomeCloud</h2>
+      <div class="sidebar-user">👤 {{ username }}</div>
+      <nav>
+        <a href="/">📁 Dashboard</a>
+        <a href="/settings">⚙️ Settings</a>
+        {% if username == 'admin' %}
+        <a href="/add_user">➕ Add User</a>
+        {% endif %}
+        <a href="/logout">🚪 Logout</a>
+      </nav>
+    </div>
 
-    <form method="post">
-      Username: <input name="new_user" required><br>
-      Password: <input name="new_pass" type="password" required><br>
-      <button type="submit">Add User</button>
-    </form>
-    <p><a href="/">Back to Dashboard</a></p>
+    <!-- Main content -->
+    <div class="container" style="flex-grow: 1; padding: 2rem;">
+      <h2>Add New User</h2>
+
+      <div class="card">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="alert">{{ messages[0] }}</div>
+          {% endif %}
+        {% endwith %}
+
+        <form method="post" class="form-grid">
+          <label for="new_user">👤 Username</label>
+          <input type="text" name="new_user" id="new_user" required>
+
+          <label for="new_pass">🔑 Password</label>
+          <input type="password" name="new_pass" id="new_pass" required>
+
+          <button type="submit">➕ Add User</button>
+        </form>
+      </div>
+    </div>
   </div>
 </body>
 </html>
