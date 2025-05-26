@@ -9,20 +9,19 @@
 <body>
     <div style="display: flex; height: 100vh;">
     <!-- Sidebar -->
-    <div style="width: 200px; background: #343a40; color: white; padding: 1rem;">
-      <h3 style="margin-top: 0;">HomeCloud</h3>
-      <p><strong>User:</strong> {{ username }}</p>
+    <div class="sidebar">
+      <h2>🏠 HomeCloud</h2>
+      <div class="sidebar-user">👤 {{ username }}</div>
       <nav>
-        <ul style="list-style: none; padding-left: 0;">
-          <li><a href="/" style="color: white;">📁 Dashboard</a></li>
-          <li><a href="/settings" style="color: white;">⚙️ Settings</a></li>
-          {% if username == 'admin' %}
-          <li><a href="/add_user" style="color: white;">➕ Add User</a></li>
-          {% endif %}
-          <li><a href="/logout" style="color: white;">🚪 Logout</a></li>
-        </ul>
+        <a href="/">📁 Dashboard</a>
+        <a href="/settings">⚙️ Settings</a>
+        {% if username == 'admin' %}
+        <a href="/add_user">➕ Add User</a>
+        {% endif %}
+        <a href="/logout">🚪 Logout</a>
       </nav>
     </div>
+
 
     <!-- Main content -->
     <div class="container" style="flex-grow: 1; overflow-y: auto;">
@@ -33,15 +32,15 @@
         <div class="upload-group">
           <div>
             <h4>📥 To Personal</h4>
-            <form method="post" action="/upload/personal" enctype="multipart/form-data">
-              <input type="file" name="file" required>
+            <form onsubmit="return uploadFile('personal')">
+              <input type="file" id="upload-input-personal" required>
               <button type="submit">Upload</button>
             </form>
           </div>
           <div>
             <h4>👪 To Shared</h4>
-            <form method="post" action="/upload/shared" enctype="multipart/form-data">
-              <input type="file" name="file" required>
+            <form onsubmit="return uploadFile('shared')">
+              <input type="file" id="upload-input-shared" required>
               <button type="submit">Upload</button>
             </form>
           </div>
@@ -49,11 +48,32 @@
       </div>
 
       <div class="section">
+        <h3>📂 Create New Folder</h3>
+
+        <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+          <form onsubmit="return createFolder('personal')">
+            <h4>📁 In Personal</h4>
+            <input type="text" id="new-folder-personal" placeholder="Folder name" required>
+            <button type="submit">➕ Create</button>
+          </form>
+          <form onsubmit="return createFolder('shared')">
+            <h4>👪 In Shared</h4>
+            <input type="text" id="new-folder-shared" placeholder="Folder name" required>
+            <button type="submit">➕ Create</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="section">
         <h3>📁 Personal Files</h3>
-        <div id="personal-list" class="file-grid">Loading...</div>
+        <input type="text" id="filter-personal" placeholder="🔍 Search files..." oninput="filterFiles('personal')">
+        <div class="breadcrumbs" id="personal-breadcrumbs"></div>
+        <div id="personal-list" class="file-grid">No files here</div>
 
         <h3>👪 Shared Files</h3>
-        <div id="shared-list" class="file-grid">Loading...</div>
+        <input type="text" id="filter-shared" placeholder="🔍 Search files..." oninput="filterFiles('shared')">
+        <div class="breadcrumbs" id="shared-breadcrumbs"></div>
+        <div id="shared-list" class="file-grid">No files here</div>
       </div>
 
       <div class="section">

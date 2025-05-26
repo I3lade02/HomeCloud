@@ -149,3 +149,87 @@ input[type='file'] {
     font-weight: bold;
     margin-top: 1rem;
 }
+
+.breadcrumbs {
+    font-size: 0.95rem;
+    margin: 0.5rem 0 1rem;
+    color: #444;
+}
+
+.breadcrumbs a {
+    color: #007BFF;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+.breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+.section form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.section form input[type='text'] {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+input[type='text'][id^='filter-'] {
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    max-width: 300px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.sidebar {
+    width: 220px;
+    background: #2c2f33;
+    color: white;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: sans-serif;
+    height: 100vh;
+}
+
+.sidebar h1, h2 {
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.sidebar-user {
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    opacity: 0.85;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+.sidebar nav a {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.sidebar nav a:hover {
+    background: #444;
+    color: #fff;
+}

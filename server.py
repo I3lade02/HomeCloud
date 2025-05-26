@@ -61,7 +61,7 @@ def list_files(folder, subpath):
 
     username = session['username']
     base_path = os.path.join(DATA_DIR, 'shared' if folder == 'shared' else os.path.join(username, 'personal'))
-    target_path = os.path.join(DATA_DIR, base_path, subpath)
+    target_path = os.path.join(base_path, subpath)
 
     if not os.path.isdir(target_path):
         return 'Folder not found', 404
@@ -94,7 +94,7 @@ def new_folder(folder, subpath):
 
     username = session['username']
     base_path = os.path.join(DATA_DIR, 'shared' if folder == 'shared' else os.path.join(username, 'personal'))
-    target_path = os.path.join(DATA_DIR, base_path, subpath, folder_name)
+    target_path = os.path.join(base_path, subpath, folder_name)
 
     os.makedirs(target_path, exist_ok=True)
     return '', 204
@@ -126,8 +126,9 @@ def download_file(folder, filename):
     dir_path = os.path.join(DATA_DIR, 'shared' if folder == 'shared' else os.path.join(username, 'personal'))
     return send_from_directory(directory=os.path.join(dir_path), path=filename, as_attachment=True)
 
-@app.route('/upload/<folder>', methods=['POST'])
-def upload_file(folder):
+@app.route('/upload/<folder>/', defaults={'subpath': ''}, methods=['POST'])
+@app.route('/upload/<folder>/<path:subpath>', methods=['POST'])
+def upload_file(folder, subpath):
     if 'username' not in session:
         return redirect(url_for('login'))
 
@@ -136,9 +137,12 @@ def upload_file(folder):
         return 'No file uploaded', 400
 
     username = session['username']
-    save_path = os.path.join(DATA_DIR, 'shared' if folder == 'shared' else os.path.join(username, 'personal'))
+    base_path = os.path.join(DATA_DIR, 'shared' if folder == 'shared' else os.path.join(username, 'personal'))
+    save_path = os.path.join(base_path, subpath)
+    os.makedirs(save_path, exist_ok=True)
+
     file.save(os.path.join(save_path, file.filename))
-    return redirect(url_for('home'))
+    return '', 204
 
 @app.route('/delete/<folder>/<path:filename>', methods=['POST'])
 def delete_file(folder, filename):
@@ -146,10 +150,19 @@ def delete_file(folder, filename):
         return redirect(url_for('login'))
 
     username = session['username']
-    path = os.path.join(DATA_DIR, 'shared' if folder == 'shared' else os.path.join(username, 'personal'), filename)
-    if os.path.exists(path):
-        os.remove(path)
-    return redirect(url_for('home'))
+    base_dir = os.path.join(DATA_DIR, 'shared') if folder == 'shared' else os.path.join(DATA_DIR, username, 'personal')
+    full_path = os.path.join(base_dir, filename)
+
+    print("🧹 Attempting to delete:", full_path)
+
+    if os.path.exists(full_path) and os.path.isfile(full_path):
+        os.remove(full_path)
+        print("✅ Deleted:", full_path)
+        return '', 204
+    print("❌ Not found:", full_path)
+    return 'File not found', 404
+
+
 
 @app.route('/preview/<folder>/<path:filename>')
 def preview_file(folder, filename):
@@ -191,7 +204,7 @@ def delete_folder(folder, subpath):
     
     username = session['username']
     base_path = os.path.join(DATA_DIR, 'shared' if folder == 'shared' else os.path.join(username, 'personal'))
-    folder_path = os.path.join(DATA_DIR, base_path, subpath)
+    folder_path = os.path.join(base_path, subpath)
 
     if os.path.isdir(folder_path):
         try:
