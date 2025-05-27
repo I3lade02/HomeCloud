@@ -214,6 +214,29 @@ def delete_folder(folder, subpath):
             return 'Folder not empty', 400
     return 'Folder not found', 404
 
+@app.route('/manage_users', methods=['POST', 'GET'])
+def manage_users():
+    if 'username' not in session or session['username'] != 'admin':
+        return 'Access denied', 403
+    
+    users = load_users()
+    if request.method == 'POST':
+        to_delete = request.form.get('username')
+        if to_delete in users and to_delete != 'admin':
+            del users[to_delete]
+            save_users(users)
+
+            user_dir = os.path.join(DATA_DIR, to_delete)
+            if os.path.exists(user_dir):
+                import shutil
+                shutil.rmtree(user_dir)
+
+                flash(f"User {to_delete} has been deleted")
+            else:
+                flash('Invalid deletion attempt')
+
+    return render_template('manage_users.html', users=[u for u in users if u != 'admin'])
+
 if __name__ == "__main__":
     init_folders()
     app.run(host='0.0.0.0', port=5000, debug=True)

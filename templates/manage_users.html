@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Manage Users - HomeCloud</title>
+  <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+  <div style="display: flex; height: 100vh;">
+    <div class="sidebar">
+      <h2>🏠 HomeCloud</h2>
+      <div class="sidebar-user">👤 {{ username }}</div>
+      <nav>
+        <a href="/">📁 Dashboard</a>
+        <a href="/settings">⚙️ Settings</a>
+        {% if username == 'admin' %}
+        <a href="/add_user">➕ Add User</a>
+        <a href="/manage_users">👥 Manage Users</a>
+        {% endif %}
+        <a href="/logout">🚪 Logout</a>
+      </nav>
+    </div>
+
+    <div class="container" style="flex-grow: 1; padding: 2rem;">
+      <h2 style="color: black;">🧍 Manage Users</h2>
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="notice">{{ messages[0] }}</div>
+        {% endif %}
+      {% endwith %}
+
+      {% if users %}
+        <ul style="list-style: none; padding: 0;">
+          {% for user in users %}
+            <li style="margin-bottom: 1rem;">
+              <form method="post" onsubmit="return confirm('Delete user {{ user }} and all files?');" style="display: flex; gap: 1rem; align-items: center;">
+                <strong>{{ user }}</strong>
+                <input type="hidden" name="username" value="{{ user }}">
+                <button type="submit">🗑️ Delete</button>
+              </form>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No users to manage.</p>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>

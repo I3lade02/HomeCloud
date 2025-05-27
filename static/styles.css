@@ -234,48 +234,146 @@ input[type='text'][id^='filter-'] {
     color: #fff;
 }
 
-.card {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    margin-top: 2rem;
-    color: black;
+.horizontal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    max-width: 500px;
 }
 
-.form-grid {
-    display: grid;
-    gap: 1rem;
+.form-row {
+    display: flex;
+    flex-direction: column;
 }
 
-.form-grid {
-    padding: 0.5rem;
+.form-row label {
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: #333;
+}
+
+.form-wor input {
+    padding: 0.6rem;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 6px;
 }
 
-.form-grid button {
-    background: #2c2f33;
-    color: white;
-    padding: 0.75rem;
+button[type='submit'] {
+    align-self: flex-start;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    background-color: #2c2f33;
+    color: #fff;
     border: none;
     border-radius: 6px;
-    font-size: 1rem;
+    cursor: pointer;
+}
+
+button[type='submit']:hover {
+    background-color: #444;
+}
+
+.notice {
+    background-color: #e8f7e4;
+    border: 1px solid #b2dfba;
+    color: #1c5c2f;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.tab-btn {
+    padding: 0.6rem 1.2rem;
+    background: #eee;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
     cursor: pointer;
     transition: background 0.2s;
+    color: black;
 }
 
-.form-grid button:hover {
-    background: #444;
+.tab-btn:hover {
+    background: #ddd;
 }
 
-.alert {
-    background: #ffebeb;
-    color: #b30000;
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    font-weight: bold;
+.tab-btn.active {
+    background: #2c2f33;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* --- Enhanced Top Bar (Breadcrumb + Search) --- */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* --- Enhanced Actions Row --- */
+.actions {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.actions form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.actions input[type="file"],
+.actions input[type="text"] {
+  padding: 0.4rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.actions button {
+  padding: 0.45rem 1rem;
+  background: #2c2f33;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.actions button:hover {
+  background: #444;
+}
+
+/* --- Enhanced File Card Styling --- */
+.file-card button {
+  margin-top: 5px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.9rem;
+  border: none;
+  background: #d33;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.file-card button:hover {
+  background: #b22;
 }

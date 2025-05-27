@@ -17,63 +17,59 @@
         <a href="/settings">⚙️ Settings</a>
         {% if username == 'admin' %}
         <a href="/add_user">➕ Add User</a>
+        <a href="/manage_users">👥 Manage Users</a>
         {% endif %}
         <a href="/logout">🚪 Logout</a>
       </nav>
     </div>
 
-
-    <!-- Main content -->
-    <div class="container" style="flex-grow: 1; overflow-y: auto;">
+ <!-- Main content -->
+    <div class="container" style="flex-grow: 1; padding: 2rem; overflow-y: auto;">
       <h2>Welcome, {{ username }}!</h2>
 
-      <div class="section">
-        <h3>Upload Files</h3>
-        <div class="upload-group">
-          <div>
-            <h4>📥 To Personal</h4>
-            <form onsubmit="return uploadFile('personal')">
-              <input type="file" id="upload-input-personal" required>
-              <button type="submit">Upload</button>
-            </form>
-          </div>
-          <div>
-            <h4>👪 To Shared</h4>
-            <form onsubmit="return uploadFile('shared')">
-              <input type="file" id="upload-input-shared" required>
-              <button type="submit">Upload</button>
-            </form>
-          </div>
-        </div>
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('personal')">📁 Personal</button>
+        <button class="tab-btn" onclick="switchTab('shared')">👪 Shared</button>
       </div>
 
-      <div class="section">
-        <h3>📂 Create New Folder</h3>
+      <div id="personal-tab" class="tab-content active">
+        <div class="top-bar">
+          <div class="breadcrumbs" id="personal-breadcrumbs"></div>
+          <input type="text" id="filter-personal" placeholder="🔍 Search files..." oninput="filterFiles('personal')">
+        </div>
 
-        <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+        <div class="actions">
+          <form onsubmit="return uploadFile('personal')">
+            <input type="file" id="upload-input-personal" required>
+            <button type="submit">📤 Upload</button>
+          </form>
           <form onsubmit="return createFolder('personal')">
-            <h4>📁 In Personal</h4>
-            <input type="text" id="new-folder-personal" placeholder="Folder name" required>
-            <button type="submit">➕ Create</button>
+            <input type="text" id="new-folder-personal" placeholder="New folder name" required>
+            <button type="submit">📁 New Folder</button>
+          </form>
+        </div>
+
+        <div id="personal-list" class="file-grid">Loading...</div>
+      </div>
+
+      <div id="shared-tab" class="tab-content">
+        <div class="top-bar">
+          <div class="breadcrumbs" id="shared-breadcrumbs"></div>
+          <input type="text" id="filter-shared" placeholder="🔍 Search files..." oninput="filterFiles('shared')">
+        </div>
+
+        <div class="actions">
+          <form onsubmit="return uploadFile('shared')">
+            <input type="file" id="upload-input-shared" required>
+            <button type="submit">📤 Upload</button>
           </form>
           <form onsubmit="return createFolder('shared')">
-            <h4>👪 In Shared</h4>
-            <input type="text" id="new-folder-shared" placeholder="Folder name" required>
-            <button type="submit">➕ Create</button>
+            <input type="text" id="new-folder-shared" placeholder="New folder name" required>
+            <button type="submit">📁 New Folder</button>
           </form>
         </div>
-      </div>
 
-      <div class="section">
-        <h3>📁 Personal Files</h3>
-        <input type="text" id="filter-personal" placeholder="🔍 Search files..." oninput="filterFiles('personal')">
-        <div class="breadcrumbs" id="personal-breadcrumbs"></div>
-        <div id="personal-list" class="file-grid">No files here</div>
-
-        <h3>👪 Shared Files</h3>
-        <input type="text" id="filter-shared" placeholder="🔍 Search files..." oninput="filterFiles('shared')">
-        <div class="breadcrumbs" id="shared-breadcrumbs"></div>
-        <div id="shared-list" class="file-grid">No files here</div>
+        <div id="shared-list" class="file-grid">Loading...</div>
       </div>
 
       <div class="section">
@@ -83,5 +79,13 @@
     </div>
   </div>
   <script src="../static/script.js"></script>
+  <script>
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelector(`#${tab}-tab`).classList.add('active');
+      document.querySelector(`.tab-btn[onclick*="${tab}"]`).classList.add('active');
+    }
+  </script>
 </body>
 </html>

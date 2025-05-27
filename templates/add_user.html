@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Add User - HomeCloud</title>
-  <link rel="stylesheet" href="../static/styles.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
   <div style="display: flex; height: 100vh;">
@@ -20,28 +20,29 @@
         <a href="/logout">🚪 Logout</a>
       </nav>
     </div>
-
     <!-- Main content -->
     <div class="container" style="flex-grow: 1; padding: 2rem;">
-      <h2>Add New User</h2>
+      <h2 style="margin-bottom: 1.5rem; color: black;">➕ Add New User</h2>
 
-      <div class="card">
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <div class="alert">{{ messages[0] }}</div>
-          {% endif %}
-        {% endwith %}
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="notice">{{ messages[0] }}</div>
+        {% endif %}
+      {% endwith %}
 
-        <form method="post" class="form-grid">
+      <form method="post" class="horizontal-form">
+        <div class="form-row">
           <label for="new_user">👤 Username</label>
           <input type="text" name="new_user" id="new_user" required>
+        </div>
 
+        <div class="form-row">
           <label for="new_pass">🔑 Password</label>
           <input type="password" name="new_pass" id="new_pass" required>
+        </div>
 
-          <button type="submit">➕ Add User</button>
-        </form>
-      </div>
+        <button type="submit">Add User</button>
+      </form>
     </div>
   </div>
 </body>
