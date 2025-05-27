@@ -377,3 +377,113 @@ button[type='submit']:hover {
 .file-card button:hover {
   background: #b22;
 }
+
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 1rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 10;
+    }
+
+    .sidebar nav {
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    .sidebar h2 {
+        font-size: 1.2rem;
+    }
+
+    body {
+        padding-top: 80px;
+    }
+
+    .tabs {
+        flex-direction: column;
+    }
+
+    .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .file-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140ox, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    button,
+    .actions input,
+    .horizontal-form input {
+        font-size: 1rem;
+        width: 100%;
+    }
+
+    .tab-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.mobile-nav {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .sidebar-wrapper {
+        display: none;
+    }
+
+    .mobile-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #2c2f33;
+        color: white;
+        padding: 1rem;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 10;
+        flex-wrap: wrap;
+    }
+
+    .mobile-nav .logo {
+        font-size: 1.2rem;
+        font-weight: bold;
+        flex: 1 1 100%;
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .mobile-nav nav {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .mobile-nav nav a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.4rem;
+    }
+
+    body {
+        padding-top: 70px;
+    }
+}
