@@ -1,29 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - HomeCloud</title>
-    <link rel="stylesheet" href="../static/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - HomeCloud</title>
+  <link rel="stylesheet" href="../static/styles.css">
 </head>
 <body>
-    <div style="display: flex; height: 100vh;">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <h2>🏠 HomeCloud</h2>
-      <div class="sidebar-user">👤 {{ username }}</div>
-      <nav>
-        <a href="/">📁 Dashboard</a>
-        <a href="/settings">⚙️ Settings</a>
-        {% if username == 'admin' %}
-        <a href="/add_user">➕ Add User</a>
-        <a href="/manage_users">👥 Manage Users</a>
-        {% endif %}
-        <a href="/logout">🚪 Logout</a>
-      </nav>
+  <!-- Mobile Top Nav -->
+  <div class="mobile-nav">
+    <span class="logo">🏠 HomeCloud</span>
+    <nav>
+      <a href="/">📁</a>
+      <a href="/settings">⚙️</a>
+      {% if username == 'admin' %}
+        <a href="/add_user">➕</a>
+        <a href="/manage_users">👥</a>
+      {% endif %}
+      <a href="/logout">🚪</a>
+    </nav>
+  </div>
+
+  <div style="display: flex; height: 100vh;">
+    <div class="sidebar-wrapper">
+      <div class="sidebar">
+        <h2>🏠 HomeCloud</h2>
+        <div class="sidebar-user">👤 {{ username }}</div>
+        <nav>
+          <a href="/">📁 Dashboard</a>
+          <a href="/settings">⚙️ Settings</a>
+          {% if username == 'admin' %}
+          <a href="/add_user">➕ Add User</a>
+          <a href="/manage_users">👥 Manage Users</a>
+          {% endif %}
+          <a href="/logout">🚪 Logout</a>
+        </nav>
+      </div>
     </div>
 
- <!-- Main content -->
+    <!-- Main content -->
     <div class="container" style="flex-grow: 1; padding: 2rem; overflow-y: auto;">
       <h2>Welcome, {{ username }}!</h2>
 
@@ -78,6 +93,7 @@
       </div>
     </div>
   </div>
+
   <script src="../static/script.js"></script>
   <script>
     function switchTab(tab) {
