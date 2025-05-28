@@ -1,4 +1,4 @@
-from flask import Flask, request, session, redirect, render_template, url_for, flash, send_from_directory
+from flask import Flask, request, session, redirect, render_template, url_for, flash, send_from_directory, abort
 import os
 import json
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -45,7 +45,7 @@ def login():
             ensure_user_folder(username)
             return redirect(url_for('home'))
         else:
-            return 'Invalid credentials', 401
+            abort(401)
     return render_template('login.html')
 
 @app.route('/logout')
@@ -64,7 +64,7 @@ def list_files(folder, subpath):
     target_path = os.path.join(base_path, subpath)
 
     if not os.path.isdir(target_path):
-        return 'Folder not found', 404
+        abort(404)
 
     files = []
     for item in os.listdir(target_path):
@@ -90,7 +90,7 @@ def new_folder(folder, subpath):
 
     folder_name = request.form['folder_name'].strip()
     if not folder_name or any(c in folder_name for c in '/\\'):
-        return 'Invalid folder name', 400
+        abort(400)
 
     username = session['username']
     base_path = os.path.join(DATA_DIR, 'shared' if folder == 'shared' else os.path.join(username, 'personal'))
@@ -102,7 +102,7 @@ def new_folder(folder, subpath):
 @app.route('/add_user', methods=['GET', 'POST'])
 def add_user():
     if 'username' not in session or session['username'] != 'admin':
-        return 'Access denied', 403
+        abort(403)
 
     if request.method == 'POST':
         new_user = request.form['new_user']
@@ -134,7 +134,7 @@ def upload_file(folder, subpath):
 
     file = request.files['file']
     if not file:
-        return 'No file uploaded', 400
+        abort(400)
 
     username = session['username']
     base_path = os.path.join(DATA_DIR, 'shared' if folder == 'shared' else os.path.join(username, 'personal'))
@@ -160,7 +160,7 @@ def delete_file(folder, filename):
         print("✅ Deleted:", full_path)
         return '', 204
     print("❌ Not found:", full_path)
-    return 'File not found', 404
+    abort(404)
 
 
 
@@ -211,13 +211,13 @@ def delete_folder(folder, subpath):
             os.rmdir(folder_path)
             return '', 204
         except OSError:
-            return 'Folder not empty', 400
-    return 'Folder not found', 404
+            abort(400)
+    abort(404)
 
 @app.route('/manage_users', methods=['POST', 'GET'])
 def manage_users():
     if 'username' not in session or session['username'] != 'admin':
-        return 'Access denied', 403
+        abort(403)
     
     users = load_users()
     if request.method == 'POST':
@@ -236,6 +236,14 @@ def manage_users():
                 flash('Invalid deletion attempt')
 
     return render_template('manage_users.html', users=[u for u in users if u != 'admin'])
+
+@app.errorhandler(400)
+@app.errorhandler(401)
+@app.errorhandler(403)
+@app.errorhandler(404)
+@app.errorhandler(500)
+def http_error_handler(error):
+    return render_template('error.html', code=error.code), error.code
 
 if __name__ == "__main__":
     init_folders()

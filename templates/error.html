@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Error {{ code }}</title>
+  <style>
+    body {
+      text-align: center;
+      background: #f2f2f2;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 2rem;
+    }
+
+    img {
+      max-width: 90vw;
+      height: auto;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.6rem 1.2rem;
+      background-color: #2c2f33;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #444;
+    }
+  </style>
+</head>
+<body>
+  <h1>Error {{ code }}</h1>
+  <img src="https://http.cat/{{ code }}" alt="HTTP Error {{ code }}">
+  <br>
+  <a href="{{ url_for('home') }}" class="btn">← Back to Dashboard</a>
+</body>
+</html>
